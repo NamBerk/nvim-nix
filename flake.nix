@@ -48,7 +48,8 @@
           vimtex
           which-key# overwrite
           ;
-      } // (readDirNix ./configs);
+      };
+      nix2nvimrcConfigsOverwrite = readDirNix ./configs;
     in
     {
       inherit nix2nvimrcConfigs;
@@ -65,6 +66,7 @@
                   (nix2nvimrc.lib.modules pkgs)
                   ++ (builtins.attrValues ck3d-configs.nix2nvimrcModules)
                   ++ (builtins.attrValues nix2nvimrcConfigs)
+                  ++ (builtins.attrValues nix2nvimrcConfigsOverwrite)
                   ++ [{
                     wrapper.name = name;
                     inherit languages;
