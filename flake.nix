@@ -48,7 +48,7 @@
           vimtex
           which-key# overwrite
           ;
-      };# // (readDirNix ./configs);
+      } // (readDirNix ./configs);
     in
     {
       inherit nix2nvimrcConfigs;
