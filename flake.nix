@@ -19,7 +19,6 @@
           Comment
           diffview
           gitsigns
-          global# overwrite
           ibl
           leader
           leap
