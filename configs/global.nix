@@ -47,43 +47,189 @@ in
     };
     keymaps = map (nix2nvimrc.toKeymap { silent = true; }) [
       # windows
-      [ "" "<C-h>" "<C-w>h" { } ]
-      [ "" "<C-j>" "<C-w>j" { } ]
-      [ "" "<C-k>" "<C-w>k" { } ]
-      [ "" "<C-l>" "<C-w>l" { } ]
-      [ "n" "<Leader>cd" "<Cmd>lcd %:p:h<CR>" { desc = "Change working directory"; } ]
+      [
+        ""
+        "<C-h>"
+        "<C-w>h"
+        { }
+      ]
+      [
+        ""
+        "<C-j>"
+        "<C-w>j"
+        { }
+      ]
+      [
+        ""
+        "<C-k>"
+        "<C-w>k"
+        { }
+      ]
+      [
+        ""
+        "<C-l>"
+        "<C-w>l"
+        { }
+      ]
+      [
+        "n"
+        "<Leader>cd"
+        "<Cmd>lcd %:p:h<CR>"
+        { desc = "Change working directory"; }
+      ]
       # undo breaks
-      [ "i" "," ",<c-g>u" { } ]
-      [ "i" "." ".<c-g>u" { } ]
-      [ "i" "!" "!<c-g>u" { } ]
-      [ "i" "?" "?<c-g>u" { } ]
-      [ "i" ":" ":<c-g>u" { } ]
+      [
+        "i"
+        ","
+        ",<c-g>u"
+        { }
+      ]
+      [
+        "i"
+        "."
+        ".<c-g>u"
+        { }
+      ]
+      [
+        "i"
+        "!"
+        "!<c-g>u"
+        { }
+      ]
+      [
+        "i"
+        "?"
+        "?<c-g>u"
+        { }
+      ]
+      [
+        "i"
+        ":"
+        ":<c-g>u"
+        { }
+      ]
       # search
-      [ "n" "<cr>" ":noh<cr>" { } ]
-      [ "n" "n" "nzz" { } ]
-      [ "n" "N" "Nzz" { } ]
+      [
+        "n"
+        "<cr>"
+        ":noh<cr>"
+        { }
+      ]
+      [
+        "n"
+        "n"
+        "nzz"
+        { }
+      ]
+      [
+        "n"
+        "N"
+        "Nzz"
+        { }
+      ]
       # yank
-      [ [ "n" "v" ] "<Leader>y" "\"+y" { } ]
-      [ "n" "<Leader>Y" "gg\"+yG" { } ]
-      [ [ "n" "v" ] "<Leader>d" "\"_d" { desc = "Delete to /dev/null"; } ]
-      [ "n" "Y" "y$" { } ]
+      [
+        [
+          "n"
+          "v"
+        ]
+        "<Leader>y"
+        "\"+y"
+        { }
+      ]
+      [
+        "n"
+        "<Leader>Y"
+        "gg\"+yG"
+        { }
+      ]
+      [
+        [
+          "n"
+          "v"
+        ]
+        "<Leader>d"
+        "\"_d"
+        { desc = "Delete to /dev/null"; }
+      ]
+      [
+        "n"
+        "Y"
+        "y$"
+        { }
+      ]
       # indent
-      [ "v" "<" "<gv" { desc = "Indent left"; } ]
-      [ "v" ">" ">gv" { desc = "Indent right"; } ]
+      [
+        "v"
+        "<"
+        "<gv"
+        { desc = "Indent left"; }
+      ]
+      [
+        "v"
+        ">"
+        ">gv"
+        { desc = "Indent right"; }
+      ]
       # terminal
-      [ "t" "<Esc>" "<C-\\><C-n>" { desc = "Close terminal"; } ]
+      [
+        "t"
+        "<Esc>"
+        "<C-\\><C-n>"
+        { desc = "Close terminal"; }
+      ]
       # ---
-      [ "n" "gx" "<Cmd>call jobstart(['xdg-open', expand('<cfile>')])<CR>" { desc = "Open file"; } ]
+      [
+        "n"
+        "gx"
+        "<Cmd>call jobstart(['xdg-open', expand('<cfile>')])<CR>"
+        { desc = "Open file"; }
+      ]
       # https://stackoverflow.com/a/26504944
-      [ "n" "<Leader>h" "<Cmd>let &hls=(&hls == 1 ? 0 : 1)<CR>" { desc = "Toggle highlight search"; } ]
+      [
+        "n"
+        "<Leader>h"
+        "<Cmd>let &hls=(&hls == 1 ? 0 : 1)<CR>"
+        { desc = "Toggle highlight search"; }
+      ]
       # diagnostics
-      [ "n" "<Leader>e" (luaExpr "vim.diagnostic.open_float") { } ]
-      [ "n" "[d" (luaExpr "vim.diagnostic.goto_prev") { } ]
-      [ "n" "]d" (luaExpr "vim.diagnostic.goto_next") { } ]
-      [ "n" "<Leader>q" (luaExpr "vim.diagnostic.setloclist") { } ]
+      [
+        "n"
+        "<Leader>e"
+        (luaExpr "vim.diagnostic.open_float")
+        { }
+      ]
+      [
+        "n"
+        "[d"
+        (luaExpr "vim.diagnostic.goto_prev")
+        { }
+      ]
+      [
+        "n"
+        "]d"
+        (luaExpr "vim.diagnostic.goto_next")
+        { }
+      ]
+      [
+        "n"
+        "<Leader>q"
+        (luaExpr "vim.diagnostic.setloclist")
+        { }
+      ]
       # spell
-      [ "n" "<Leader>se" "<Cmd>setlocal spell spelllang=en_us<CR>" { desc = "Spell English"; } ]
-      [ "n" "<Leader>sd" "<Cmd>setlocal spell spelllang=de_de<CR>" { desc = "Spell German"; } ]
+      [
+        "n"
+        "<Leader>se"
+        "<Cmd>setlocal spell spelllang=en_us<CR>"
+        { desc = "Spell English"; }
+      ]
+      [
+        "n"
+        "<Leader>sd"
+        "<Cmd>setlocal spell spelllang=de_de<CR>"
+        { desc = "Spell German"; }
+      ]
     ];
     vim = [ ./global.vim ];
   };

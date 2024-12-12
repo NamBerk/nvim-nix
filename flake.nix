@@ -5,7 +5,8 @@
     ck3d-configs.url = "github:ck3d/ck3d-nvim-configs";
   };
 
-  outputs = { self, ck3d-configs }:
+  outputs =
+    { self, ck3d-configs }:
     let
       inherit (ck3d-configs.inputs) nixpkgs nix2nvimrc;
       inherit (nixpkgs) lib;
@@ -15,36 +16,36 @@
       nix2nvimrcConfigs = {
         inherit (ck3d-configs.nix2nvimrcConfigs)
           bufferline
-          cmp# overwrite
+          cmp # overwrite
           Comment
           diffview
           gitsigns
           ibl
           leader
           leap
-          lspconfig# sumneko_lua.config.lua
+          lspconfig # sumneko_lua.config.lua
           lsp_extensions
           lsp-status
-          lualine# overwrite
+          lualine # overwrite
           luapad
           neogit
           neovide
           null-ls
           nvim-surround
-          nvim-treesitter# overwrite
+          nvim-treesitter # overwrite
           nvim-web-devicons
           osc52
           outline
           plantuml-syntax
           project_nvim
           registers
-          telescope# overwrite
+          telescope # overwrite
           toggleterm
           treesitter-context
           trouble
           vim-speeddating
           vimtex
-          which-key# overwrite
+          which-key # overwrite
           ;
       };
       nix2nvimrcConfigsOverwrite = readDirNix ./configs;

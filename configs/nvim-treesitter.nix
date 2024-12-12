@@ -1,4 +1,10 @@
-{ config, pkgs, lib, nix2nvimrc, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  nix2nvimrc,
+  ...
+}:
 {
   # extend ck3d
   configs.nvim-treesitter = {
