@@ -38,7 +38,6 @@
           plantuml-syntax
           project_nvim
           registers
-          scrollbar
           telescope# overwrite
           toggleterm
           treesitter-context
@@ -53,49 +52,104 @@
     {
       inherit nix2nvimrcConfigs;
 
-      packages = forAllSystems
-        (system:
-          let
-            pkgs = nixpkgs.legacyPackages.${system}
-              // { ck3dNvimPkgs = { inherit (ck3d-configs.packages.${system}) outline-nvim; }; };
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
-            nvims = builtins.mapAttrs
-              (name: languages: (lib.evalModules {
-                modules =
-                  (nix2nvimrc.lib.modules pkgs)
-                  ++ (builtins.attrValues ck3d-configs.nix2nvimrcModules)
-                  ++ (builtins.attrValues nix2nvimrcConfigs)
-                  ++ (builtins.attrValues nix2nvimrcConfigsOverwrite)
-                  ++ [{
-                    wrapper.name = name;
-                    inherit languages;
-                  }];
-              }).config.wrapper.drv)
-              rec {
-                nvim-admin = [ "nix" "yaml" "bash" "markdown" "json" "toml" ];
-                nvim-dev = nvim-admin ++ [
-                  "rust"
-                  "javascript"
-                  "html"
-                  "c"
-                  "cpp"
-                  "css"
-                  "make"
-                  "graphql"
-                  "python"
-                  "scheme"
-                  "latex"
-                  "devicetree"
-                  "go"
-                  "dhall"
-                  "jq"
-                  "vue"
-                  "typescript"
-                  "xml"
-                  "plantuml"
-                ];
-              };
-          in
-          nvims // { default = nvims.nvim-admin; });
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system} // {
+            ck3dNvimPkgs = {
+              inherit (ck3d-configs.packages.${system})
+                outline-nvim
+                nvim-tsserver-vue-env
+                cmp-yank
+                ;
+            };
+          };
+
+          grouped-languages = rec {
+            nvim-min = [ ];
+            nvim-admin = [
+              "nix"
+              "yaml"
+              "bash"
+              "markdown"
+              "json"
+              "toml"
+            ];
+            nvim-dev = nvim-admin ++ [
+              "rust"
+              "javascript"
+              "html"
+              "c"
+              "cpp"
+              "css"
+              "make"
+              "graphql"
+              "python"
+              "scheme"
+              "latex"
+              "devicetree"
+              "go"
+              "dhall"
+              "jq"
+              "vue"
+              "typescript"
+              "xml"
+              "plantuml"
+            ];
+          };
+
+          nvims = builtins.listToAttrs (
+            builtins.concatMap (
+              group:
+              let
+                evaluation = lib.evalModules {
+                  modules =
+                    (nix2nvimrc.lib.modules pkgs)
+                    ++ (builtins.attrValues ck3d-configs.nix2nvimrcModules)
+                    ++ (builtins.attrValues nix2nvimrcConfigs)
+                    ++ (builtins.attrValues nix2nvimrcConfigsOverwrite)
+                    ++ [
+                      {
+                        wrapper.name = group;
+                        languages = grouped-languages.${group};
+                      }
+                    ];
+                };
+              in
+              builtins.concatMap
+                (
+                  drv:
+                  lib.optional (builtins.elem system drv.meta.platforms) {
+                    name = drv.pname;
+                    value = drv;
+                  }
+                )
+                [
+                  evaluation.config.wrapper.drv
+                  evaluation.config.bubblewrap.drv
+                ]
+            ) (builtins.attrNames grouped-languages)
+          );
+        in
+        nvims // { default = nvims.nvim-admin; }
+      );
+
+      checks = forAllSystems (
+        system:
+        let
+          packages = self.packages.${system};
+        in
+        packages
+        // (builtins.foldl' (
+          acc: package:
+          acc
+          // (lib.mapAttrs' (test: value: {
+            name = package + "-test-" + test;
+            inherit value;
+          }) (packages.${package}.tests or { }))
+        ) { } (builtins.attrNames packages))
+      );
     };
 }
