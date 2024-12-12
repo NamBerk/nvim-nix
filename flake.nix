@@ -78,27 +78,36 @@
               "json"
               "toml"
             ];
-            nvim-dev = nvim-admin ++ [
-              "rust"
+            nvim-web = nvim-admin ++ [
               "javascript"
               "html"
-              "c"
-              "cpp"
-              "css"
-              "make"
-              "graphql"
-              "python"
-              "scheme"
-              "latex"
-              "devicetree"
-              "go"
-              "dhall"
-              "jq"
               "vue"
               "typescript"
-              "xml"
+              "css"
+            ];
+            nvim-author = nvim-admin ++ [
+              "latex"
+              "typst"
               "plantuml"
             ];
+            nvim-dev = lib.unique (
+              nvim-admin
+              ++ nvim-web
+              ++ nvim-author
+              ++ [
+                "rust"
+                "c"
+                "cpp"
+                "make"
+                "graphql"
+                "python"
+                "scheme"
+                "devicetree"
+                "go"
+                "jq"
+                "xml"
+              ]
+            );
           };
 
           nvims = builtins.listToAttrs (
