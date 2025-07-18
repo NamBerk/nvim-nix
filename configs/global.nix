@@ -42,7 +42,7 @@ in
       splitright = true;
       updatetime = 300;
       formatoptions = luaExpr "vim.o.formatoptions .. 'n'";
-      background = "light";
+      background = "dark";
       completeopt = "menu,menuone,noselect";
     };
     keymaps = map (nix2nvimrc.toKeymap { silent = true; }) [
