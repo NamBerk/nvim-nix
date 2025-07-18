@@ -60,11 +60,7 @@
         let
           pkgs = nixpkgs.legacyPackages.${system} // {
             ck3dNvimPkgs = {
-              inherit (ck3d-configs.packages.${system})
-                outline-nvim
-                nvim-tsserver-vue-env
-                cmp-yank
-                ;
+              inherit (ck3d-configs.packages.${system}) outline-nvim nvim-tsserver-vue-env cmp-yank;
             };
           };
 
@@ -131,7 +127,7 @@
               builtins.concatMap
                 (
                   drv:
-                  lib.optional (builtins.elem system drv.meta.platforms) {
+                  lib.optional (drv.meta ? platforms && builtins.elem system drv.meta.platforms) {
                     name = drv.pname;
                     value = drv;
                   }
