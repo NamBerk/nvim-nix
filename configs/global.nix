@@ -77,6 +77,12 @@ in
         "<Cmd>lcd %:p:h<CR>"
         { desc = "Change working directory"; }
       ]
+      [
+        "" 
+        "gb" 
+        "<C-o>" 
+        { desc = "Jump back in jump list"; }
+      ]
       # undo breaks
       [
         "i"
@@ -185,6 +191,7 @@ in
         "<Cmd>call jobstart(['xdg-open', expand('<cfile>')])<CR>"
         { desc = "Open file"; }
       ]
+
       # https://stackoverflow.com/a/26504944
       [
         "n"
@@ -229,6 +236,16 @@ in
         "<Leader>sd"
         "<Cmd>setlocal spell spelllang=de_de<CR>"
         { desc = "Spell German"; }
+      ]
+      # search - replace
+      [
+        "n"
+        "<F2>"
+        ":%s#\\<<C-r><C-w>\\>#<C-r><C-w>#g<Left><Left>"
+        {
+          desc = "Search and replace";
+          silent = false;
+        }
       ]
     ];
     vim = [ ./global.vim ];

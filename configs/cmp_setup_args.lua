@@ -14,7 +14,8 @@ return {
   },
   {{name = "buffer"}}),
   mapping = require'cmp'.mapping.preset.insert({
-    ['<C-y>'] = require'cmp'.mapping.confirm({select = true}),
+    ['<CR>'] = require'cmp'.mapping.confirm({select = true}),
+    ['<Tab>'] = require 'cmp'.mapping.select_next_item();
     ['<C-n>'] = require 'cmp'.mapping.select_next_item();
     ['<C-p>'] = require 'cmp'.mapping.select_prev_item();
   }),
