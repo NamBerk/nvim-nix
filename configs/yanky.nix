@@ -4,7 +4,13 @@
     plugins = with pkgs; [
       vimPlugins.yanky-nvim
     ];
-    setup.args = {};
+    setup.args = {
+      picker = {
+        telescope = {
+          use_default_mappings = true;
+        };
+      };
+    };
     keymaps = map (nix2nvimrc.toKeymap { silent = true; }) [
       [ "n" "p" "<Plug>(YankyPutAfter)" { desc = "Put after cursor"; } ]
       [ "n" "P" "<Plug>(YankyPutBefore)" { desc = "Put before cursor"; } ]
