@@ -20,7 +20,7 @@
     keymaps = map (nix2nvimrc.toKeymap { silent = true; }) [
       [
         "n"
-        "<C-g>"
+        "gx"
         "<Cmd>lua require('hodur').open()<CR>"
         { desc = "Open file or URL under cursor"; }
       ]
