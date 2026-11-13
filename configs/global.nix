@@ -44,6 +44,7 @@ in
       formatoptions = luaExpr "vim.o.formatoptions .. 'n'";
       background = "dark";
       completeopt = "menu,menuone,noselect";
+      laststatus=3;
     };
     keymaps = map (nix2nvimrc.toKeymap { silent = true; }) [
       # windows
