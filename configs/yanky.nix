@@ -11,6 +11,18 @@
         };
       };
     };
+    setup.args = {};
+    lua = [
+      ''
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "TelescopePrompt",
+        callback = function()
+          vim.keymap.set("i", "<CR>", "<CR>p", { buffer = true })
+          vim.keymap.set("n", "<CR>", "<CR>p", { buffer = true })
+        end,
+      })
+      ''
+    ];
     keymaps = map (nix2nvimrc.toKeymap { silent = true; }) [
       [ "n" "p" "<Plug>(YankyPutAfter)" { desc = "Put after cursor"; } ]
       [ "n" "P" "<Plug>(YankyPutBefore)" { desc = "Put before cursor"; } ]
